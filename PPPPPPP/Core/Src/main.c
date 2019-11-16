@@ -96,7 +96,7 @@ int main(void)
   MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
 	init_UARTs();
-	HAL_UART_Transmit_IT(&huart4, "Abcdefghijklmnopqrsutxz", 23);
+	HAL_UART_Transmit_IT(&huart4, "AbcdefghijklmnopqrsutxZ", 23);
 
   /* USER CODE END 2 */
 
