@@ -115,7 +115,7 @@ void MX_USART3_UART_Init(void)
 {
 
   huart3.Instance = USART3;
-  huart3.Init.BaudRate = 115200;
+  huart3.Init.BaudRate = 9600;
   huart3.Init.WordLength = UART_WORDLENGTH_8B;
   huart3.Init.StopBits = UART_STOPBITS_1;
   huart3.Init.Parity = UART_PARITY_NONE;
@@ -422,7 +422,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart){
 		UART6Rx_index &= ~(1<<7); //keep index inside the limits
 		
 		// set the interrupt for UART3 Rx again
-		HAL_UART_Receive_IT(&huart3, &UART6Rx_Buffer[UART6Rx_index], 3);
+		HAL_UART_Receive_IT(&huart3, &UART6Rx_Buffer[UART6Rx_index], 1);
 		HAL_UART_Transmit_IT(&huart4, &UART6Rx_Buffer[UART6Rx_index]-1, 1);
 	}
 }
