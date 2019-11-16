@@ -22,6 +22,7 @@
 #include "main.h"
 #include "usart.h"
 #include "gpio.h"
+#include "user.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -97,8 +98,11 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	init_UARTs();
 	HAL_UART_Transmit_IT(&huart3, (uint8_t *)sizeof(char), 1);
-	HAL_UART_Transmit_IT(&huart4, "AbcdefghijklmnopqrsutxZ", 23);
+	//HAL_UART_Transmit_IT(&huart4, "AbcdefghijklmnopqrsutxZ", 23);
 
+	user1 pp;
+	pp.xxx = cd;
+	pp.xxx(&pp);
   /* USER CODE END 2 */
 
   /* Infinite loop */
