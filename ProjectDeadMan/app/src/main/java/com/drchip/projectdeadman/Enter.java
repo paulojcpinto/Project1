@@ -31,6 +31,7 @@ public class Enter extends AppCompatActivity {
                 startActivity(new Intent(Enter.this,Register.class));
                 Enter.this.finish();
 
+
             }
         });
         btnLogin.setOnClickListener(new View.OnClickListener() {
