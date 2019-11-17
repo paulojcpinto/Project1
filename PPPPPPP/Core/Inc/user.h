@@ -1,17 +1,17 @@
 #include "usart.h"
 
-typedef struct User user1, *pno;
+typedef struct User user, *pno;
 
 
 struct User
 {
 	char nickName[15];
 	char phoneNumber[9];
-	pno (*xxx)(user1 *); 
+	pno (*getNickName)(user *); 
 };
 
 
-pno cd (user1 *me)
+pno cd (user *me)
 {	
 	HAL_UART_Transmit_IT(&huart4, "AbcdefghijklmnopqrsutxZ", 23);
 }

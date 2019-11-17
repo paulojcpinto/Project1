@@ -415,7 +415,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart){
 		
 		// set the interrupt for UART3 Rx again
 		HAL_UART_Receive_IT(&huart4, &UART3Rx_Buffer[UART3Rx_index], 1);
-		HAL_UART_Transmit_IT(&huart3, &UART3Rx_Buffer[UART3Rx_index]-1, 1);
+		
+		if (UART3Rx_Buffer[UART3Rx_index-1] == '<')
+			HAL_UART_Transmit_IT(&huart3, &UART3Rx_Buffer[UART3Rx_index]-1, 1);
+			
 	}
 	if (huart->Instance == USART3){ //current UART?
 		UART6Rx_index++;
@@ -427,25 +430,25 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart){
 	}
 }
 
-int messageReceived(){
+int messageReceived(int *c){
 	static int last_index = 0;
 	static int out_index = 0;
 	int return_value = 0;
 	while(last_index != UART3Rx_index){
-		if(UART3Rx_Buffer[last_index] == '\n'){
-			Rx_Buffer[out_index - 1] = '\0';
-			return_value = out_index;
-			out_index = 0;
+		if(UART3Rx_Buffer[last_index] == '<'){
+			*c = 1;
+			HAL_UART_Transmit_IT(&huart3, "okoko", 5);
+//			Rx_Buffer[out_index - 1] = '\0';
 		}
-		else{
-			Rx_Buffer[out_index] = UART3Rx_Buffer[last_index];
-			out_index++;
-			return_value = 0;
+		else if(UART3Rx_Buffer[last_index] == '>') {	
+		*c = 2;
+			return *c-2;
 		}
+		Rx_Buffer[out_index] = UART3Rx_Buffer[out_index++];
 		last_index++;
 		last_index &= ~(1<<7);
 	}
-	return return_value;
+	return *c-2;
 }
 
 void init_UARTs(){

@@ -97,18 +97,27 @@ int main(void)
   MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
 	init_UARTs();
-	HAL_UART_Transmit_IT(&huart3, (uint8_t *)sizeof(char), 1);
-	//HAL_UART_Transmit_IT(&huart4, "AbcdefghijklmnopqrsutxZ", 23);
+	//HAL_UART_Transmit_IT(&huart3, (uint8_t *)sizeof(char), 1);
 
-	user1 pp;
-	pp.xxx = cd;
-	pp.xxx(&pp);
+	user pp;
+	pp.getNickName = cd;
+	int c = 0;
+	uint8_t *ppp= "paulo jorge";
+	HAL_UART_Transmit_IT(&huart3, ppp, 5);
+	HAL_Delay(50);
+	HAL_UART_Transmit_IT(&huart3, ppp, 5);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		if(!messageReceived(&c))
+		{
+			pp.getNickName(&pp);
+			c=0;
+		}
+		HAL_Delay(50);
 		
     /* USER CODE END WHILE */
 

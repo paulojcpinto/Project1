@@ -61,7 +61,7 @@ void MX_USART6_UART_Init(void);
  *							 if there are some message
  *
  *****************************************************/
-int messageReceived(void);
+int messageReceived(int *c);
 
 /****************************************************** 	
  *		
