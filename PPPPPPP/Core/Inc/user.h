@@ -18,14 +18,13 @@ void cd (user *me)
 
 int getNickName (user *me, uint8_t *c)
 {
-		static int last_index = 0;
+	static int last_index = 0;
 	static int out_index = 0;
 	int return_value = 0;
 	while(UART3Tx_index != UART3Rx_index){
 		if(UART3Rx_Buffer[UART3Tx_index] == '<'){
 			*c = 3;
 			UART3Tx_index ++;
-//			Rx_Buffer[out_index - 1] = '\0';
 		}
 		else if (*c == 1)
 		{
