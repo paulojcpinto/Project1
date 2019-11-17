@@ -100,12 +100,12 @@ int main(void)
 	//HAL_UART_Transmit_IT(&huart3, (uint8_t *)sizeof(char), 1);
 
 	user pp;
-	pp.getNickName = cd;
+	pp.getNickName = getNickName;
 	int c = 0;
 	uint8_t *ppp= "paulo jorge";
 	HAL_UART_Transmit_IT(&huart3, ppp, 5);
 	HAL_Delay(50);
-	HAL_UART_Transmit_IT(&huart3, ppp, 5);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -114,8 +114,11 @@ int main(void)
   {
 		if(!messageReceived(&c))
 		{
-			pp.getNickName(&pp);
-			c=0;
+					HAL_Delay(50);
+			HAL_UART_Transmit_IT(&huart4, Rx_Buffer, 5);
+			c=7;
+		//	Rx_Buffer=0;
+			//pp.getNickName(&pp);
 		}
 		HAL_Delay(50);
 		
