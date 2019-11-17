@@ -28,6 +28,9 @@ public class Enter extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                startActivity(new Intent(Enter.this,Register.class));
+                Enter.this.finish();
+
             }
         });
         btnLogin.setOnClickListener(new View.OnClickListener() {
