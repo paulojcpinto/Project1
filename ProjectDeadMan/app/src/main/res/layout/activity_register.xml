@@ -41,6 +41,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:textColorHint="@color/colorHint"
         app:hintTextAppearance="@style/FloatingHintStyle">
 
@@ -48,6 +49,9 @@
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:layout_weight="0"
             android:backgroundTint="@color/colorAccent"
             android:ems="10"
@@ -60,12 +64,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="@color/colorHint"
+        android:layout_marginTop="5dp"
         app:hintTextAppearance="@style/FloatingHintStyle">
 
         <EditText
             android:id="@+id/editText2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:backgroundTint="@color/colorAccent"
             android:ems="10"
             android:hint="Enter PinCode:"
@@ -109,12 +117,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="@color/colorHint"
+        android:layout_marginTop="5dp"
         app:hintTextAppearance="@style/FloatingHintStyle">
 
         <EditText
             android:id="@+id/editText3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:backgroundTint="@color/colorAccent"
             android:ems="10"
             android:hint="Enter Email:"
@@ -126,12 +138,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="@color/colorHint"
+        android:layout_marginTop="5dp"
         app:hintTextAppearance="@style/FloatingHintStyle">
 
         <EditText
             android:id="@+id/editText4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:backgroundTint="@color/colorAccent"
             android:ems="10"
             android:hint="Enter Email Password:"
@@ -140,6 +156,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etTeste"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColorHint="@color/colorHint"
@@ -149,11 +166,17 @@
             android:id="@+id/etMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:backgroundTint="@color/colorAccent"
+            android:contextClickable="true"
+            android:cursorVisible="true"
             android:ems="10"
+            android:enabled="true"
             android:hint="Enter Messagen To Release:"
             android:inputType="textPersonName"
-            android:isScrollContainer="true"
+            android:isScrollContainer="false"
             android:singleLine="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -168,6 +191,9 @@
             android:id="@+id/etDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:backgroundTint="@color/colorAccent"
             android:cursorVisible="false"
             android:editable="false"
@@ -183,12 +209,18 @@
         android:layout_height="wrap_content"
         android:textColorHint="@color/colorHint"
         app:hintTextAppearance="@style/FloatingHintStyle">
-    <EditText
-        android:id="@+id/editText7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="time" />
+
+        <EditText
+            android:id="@+id/editText7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/colorAccent"
+            android:ems="10"
+            android:hint="Repeat Time"
+            android:inputType="time" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
