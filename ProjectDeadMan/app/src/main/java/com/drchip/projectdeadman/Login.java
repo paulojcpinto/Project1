@@ -1,13 +1,13 @@
 package com.drchip.projectdeadman;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Login extends AppCompatActivity {
     AutoCompleteTextView etNick;
@@ -45,5 +45,13 @@ public class Login extends AppCompatActivity {
                 Login.this.finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        startActivity(new Intent(Login.this, Enter.class));
+        Login.this.finish();
     }
 }
