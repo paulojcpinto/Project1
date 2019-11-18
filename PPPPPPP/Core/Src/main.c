@@ -112,13 +112,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		if(!messageReceived(&c))
+		if(!pp.getNickName(&pp, &c))
 		{
-					HAL_Delay(50);
-			HAL_UART_Transmit_IT(&huart4, Rx_Buffer, 5);
-			c=7;
-		//	Rx_Buffer=0;
-			//pp.getNickName(&pp);
+			
 		}
 		HAL_Delay(50);
 		

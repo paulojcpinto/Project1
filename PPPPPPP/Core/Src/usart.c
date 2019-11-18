@@ -417,7 +417,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart){
 		// set the interrupt for UART3 Rx again
 		HAL_UART_Receive_IT(&huart4, &UART3Rx_Buffer[UART3Rx_index], 1);
 		
-		if (UART3Rx_Buffer[UART3Rx_index-1] == '<')
+//		if (UART3Rx_Buffer[UART3Rx_index-1] == '>')
 			HAL_UART_Transmit_IT(&huart3, &UART3Rx_Buffer[UART3Rx_index]-1, 1);
 			
 	}
@@ -432,7 +432,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart){
 }
 
 int messageReceived(int *c){
-	static int last_index = 0;
 	static int out_index = 0;
 	int return_value = 0;
 	while(UART3Tx_index != UART3Rx_index){
@@ -445,7 +444,7 @@ int messageReceived(int *c){
 		{
 		if(UART3Rx_Buffer[UART3Tx_index] == '>') {	
 			*c = 2;
-			HAL_UART_Transmit_IT(&huart4, "pp", 2);
+	//		HAL_UART_Transmit_IT(&huart4, "pp", 2);
 			Rx_Buffer[out_index] = UART3Rx_Buffer[UART3Tx_index++];
 			UART3Tx_index &= ~(1<<7);
 			out_index=0;
