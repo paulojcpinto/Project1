@@ -92,7 +92,28 @@ void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 2 */
-
+void HAL_GPIO_EXTI_Callback ( uint16_t GPIO_PIN )
+{
+	switch ( GPIO_PIN )
+	{
+		case NumPad_1Col_Pin:
+		{
+			
+		}; break;
+		case NumPad_2Col_Pin:
+		{
+			
+		}; break;
+		case NumPad_3Col_Pin:
+		{
+			
+		} break;
+		case NumPad_4Col_Pin:
+		{
+			
+		} break;
+	}
+}
 /* USER CODE END 2 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
