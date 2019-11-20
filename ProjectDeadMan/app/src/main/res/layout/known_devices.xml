@@ -5,6 +5,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbSTM"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="STM32" />
+
+        <RadioButton
+            android:id="@+id/rbRasp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="RASPBERRY" />
+    </RadioGroup>
+
     <ListView
         android:id="@+id/lvPairedDevices"
         android:layout_width="match_parent"

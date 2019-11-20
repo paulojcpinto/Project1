@@ -45,17 +45,11 @@ public class Enter extends AppCompatActivity {
     public static final int MESSAGE_WRITE = 3;
     public static final int MESSAGE_DEVICE_NAME = 4;
     public static final int MESSAGE_TOAST = 5;
+    public static final int CONNECTED_SUCCESS = 6;
     public static final String DEVICE_NAME = "device_name";
     public static final String TOAST = "toast";
     private static final String TAG = "BluetoothChatService";
     ArrayList<MybluetoothDevice> loadedDevices;
-    Button btnLogin, btnRegister, btnSend;
-    ImageView ivLogo, ivStatus;
-    ArrayList<BluetoothDevice> listb;
-    String deviceType;
-    String name;
-    EditText etSend;
-    TextView tvDevice;
     @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
         @Override
@@ -67,20 +61,38 @@ public class Enter extends AppCompatActivity {
                     String readMessage = new String(readBuf, 0, msg.arg1);
 
                     if (readMessage.contains("STM")) {
-                        deviceType = "STM";
+                        ApplicationClass.deviceType = "STM";
                         connected = true;
                         ivStatus.setImageResource(R.drawable.done);
 
                         Toast.makeText(Enter.this, "Connected with sucess", Toast.LENGTH_SHORT).show();
-                        loadedDevices.add(new MybluetoothDevice(ApplicationClass.target, deviceType));
-                        saveDevice();
+                        boolean canSave = true;
+                        for (int i = 0; i < loadedDevices.size(); i++) {
+                            if (loadedDevices.get(i).device.getAddress().equals(ApplicationClass.target.getAddress())) {
+                                canSave = false;
+                            }
+                        }
+                        if (canSave) {
+                            loadedDevices.add(new MybluetoothDevice(ApplicationClass.target, ApplicationClass.deviceType));
+                            saveDevice();
+                        }
+
                     } else if (readMessage.equals("rasp")) {
-                        deviceType = "RASP";
+                        ApplicationClass.deviceType = "RASP";
                         connected = true;
                         ivStatus.setImageResource(R.drawable.done);
                         Toast.makeText(Enter.this, "Connected with sucess", Toast.LENGTH_SHORT).show();
-                        loadedDevices.add(new MybluetoothDevice(ApplicationClass.target, deviceType));
-                        saveDevice();
+                        boolean canSave = true;
+
+                        for (int i = 0; i < loadedDevices.size(); i++) {
+                            if (loadedDevices.get(i).device.getAddress().equals(ApplicationClass.target.getAddress())) {
+                                canSave = false;
+                            }
+                        }
+                        if (canSave) {
+                            loadedDevices.add(new MybluetoothDevice(ApplicationClass.target, ApplicationClass.deviceType));
+                            saveDevice();
+                        }
                     }
 
                     Toast.makeText(Enter.this, "Receibed " + readMessage, Toast.LENGTH_SHORT).show();
@@ -94,9 +106,21 @@ public class Enter extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
                             Toast.LENGTH_SHORT).show();
                     break;
+                case CONNECTED_SUCCESS:
+                    ApplicationClass.sendMessage("O", Enter.this);
+
+                    ApplicationClass.sendMessage("<L>", Enter.this);
+                    break;
             }
         }
     };
+    ImageView ivLogo, ivStatus;
+    ArrayList<BluetoothDevice> listb;
+
+    String name;
+    EditText etSend;
+    TextView tvDevice;
+    Button btnLogin, btnRegister;
     private Set<BluetoothDevice> pairedDevices;
     boolean choosed, connected;
 
@@ -108,13 +132,11 @@ public class Enter extends AppCompatActivity {
         btnRegister= findViewById(R.id.btnRegister);
         tvDevice = findViewById(R.id.tvDevice);
         ivStatus = findViewById(R.id.ivStatus);
-        btnSend = findViewById(R.id.btnSend);
-        etSend = findViewById(R.id.etSend);
+
         connected = false;
         listb = new ArrayList<BluetoothDevice>();
         loadedDevices = new ArrayList<>();
-        ApplicationClass.mBluetoothConnectionService = new BluetoothConnectionService(this, mHandler);
-        ApplicationClass.mBluetoothConnectionService.start();
+        ApplicationClass.mBluetoothConnectionService.updateHandlerContex(mHandler);
 
         name = "";
         ivLogo = findViewById(R.id.ivLogo);
@@ -162,6 +184,11 @@ public class Enter extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Already on", Toast.LENGTH_LONG).show();
         }
 
+        if (ApplicationClass.deviceConnected) {
+            connected = true;
+            tvDevice.setText(ApplicationClass.target.getName());
+            ivStatus.setImageResource(R.drawable.done);
+        }
 
         ivStatus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,28 +199,26 @@ public class Enter extends AppCompatActivity {
                     //String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
                     //
                     BluetoothDevice device = ApplicationClass.BA.getRemoteDevice(ApplicationClass.target.getAddress());
-                    if (device != null)
-                        Toast.makeText(Enter.this, "YESS", Toast.LENGTH_SHORT).show();
                     // Attempt to connect to the device
                     ApplicationClass.mBluetoothConnectionService.connect(device);
 
 
-                    for (int i = 0; i < 10000000; i++) for (int j = 0; j < 115; j++) ;
-                    ApplicationClass.sendMessage("O", Enter.this);
+                    // for (int i = 0; i < 10000000; i++) for (int j = 0; j < 115; j++) ;
+//                    ApplicationClass.sendMessage("O", Enter.this);
+//
+//                    ApplicationClass.sendMessage("<L>", Enter.this);
 
-                    ApplicationClass.sendMessage("<L>", Enter.this);
+                } else {
+                    ApplicationClass.mBluetoothConnectionService.stop();
+                    connected = false;
+                    ivStatus.setImageResource(R.drawable.error);
+                    //Toast.makeText(Enter.this, "You closed the connection", Toast.LENGTH_SHORT).show();
 
-                } else
-                    Toast.makeText(Enter.this, "You are already connected to that device", Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // ApplicationClass.mBluetoothConnectionService.write(bytes);
-                ApplicationClass.sendMessage(etSend.getText().toString(), Enter.this);
-            }
-        });
+
 
     }
 
@@ -202,21 +227,19 @@ public class Enter extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.enter_menu, menu);
 
+
         return super.onCreateOptionsMenu(menu);
     }
 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {   // override metodos em code !!!
 
         switch (item.getItemId()) {
+
             case R.id.addDevice:
 
-                Toast.makeText(this, "Add Device Clicked", Toast.LENGTH_SHORT).show();
                 final AlertDialog.Builder message = new AlertDialog.Builder(Enter.this);
                 LayoutInflater inflater = getLayoutInflater();
                 final View dialogView = inflater.inflate(R.layout.paired_devices, null);
-                //   final EditText etReleaseMessage = dialogView.findViewById(R.id.etReleaseMessage);
-                final RadioButton rbSTM = dialogView.findViewById(R.id.rbSTM);
-                final RadioButton rbRasp = dialogView.findViewById(R.id.rbRasp);
                 final ListView lv = dialogView.findViewById(R.id.lvPairedDevices);
 
                 final TextView tvBname = dialogView.findViewById(R.id.tvBName);
@@ -225,59 +248,32 @@ public class Enter extends AppCompatActivity {
                 final LinearLayout llSelected = dialogView.findViewById(R.id.llSelected);
                 choosed = false;
                 llSelected.setVisibility(View.GONE);
-                pairedDevices = ApplicationClass.BA.getBondedDevices();
 
-
-                listb.addAll(pairedDevices);
-                // final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
 
 
                 message.setView(dialogView);
                 message.setTitle("Bluetooth Devices");
                 message.setMessage("Select the device that you want to add!!");
 
+                pairedDevices = ApplicationClass.BA.getBondedDevices();
+                listb.addAll(pairedDevices);
+                MyBluetoothAdapter adapter = new MyBluetoothAdapter(getApplicationContext(), listb, 3);
+                lv.setAdapter(adapter);
+                llSelected.setVisibility(View.GONE);
+                lv.setVisibility(View.VISIBLE);
 
-                rbSTM.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        MyBluetoothAdapter adapter = new MyBluetoothAdapter(getApplicationContext(), listb, 1);
-
-                        choosed = false;
-                        lv.setAdapter(adapter);
-
-                        llSelected.setVisibility(View.GONE);
-                        lv.setVisibility(View.VISIBLE);
-                    }
-                });
-
-                rbRasp.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        MyBluetoothAdapter adapter = new MyBluetoothAdapter(getApplicationContext(), listb, 2);
-
-                        choosed = false;
-                        lv.setAdapter(adapter);
-                        llSelected.setVisibility(View.GONE);
-                        lv.setVisibility(View.VISIBLE);
-
-
-                    }
-                });
 
                 lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         ApplicationClass.target = listb.get(position);
 
-                        Toast.makeText(Enter.this, "Device added succesfully " + listb.get(position).getName(), Toast.LENGTH_SHORT).show();
+                        //  Toast.makeText(Enter.this, "Device added succesfully " + listb.get(position).getName(), Toast.LENGTH_SHORT).show();
                         tvBname.setText(listb.get(position).getName());
                         tvBmac.setText(listb.get(position).getAddress());
-                        if (rbSTM.isChecked()) {
-                            ivType.setImageResource(R.drawable.stm);
-                        } else if (rbRasp.isChecked()) {
-                            ivType.setImageResource(R.drawable.rasp);
-                        }
+
+
+                        ivType.setImageResource(R.drawable.not_knowned);
                         lv.setVisibility(View.GONE);
 
                         llSelected.setVisibility(View.VISIBLE);
@@ -285,9 +281,6 @@ public class Enter extends AppCompatActivity {
 
                     }
                 });
-
-
-
                 message.setPositiveButton("Comfirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -311,8 +304,123 @@ public class Enter extends AppCompatActivity {
                 });
                 message.show();
 
+
                 break;
+
             case R.id.SelectDevice:
+
+                final AlertDialog.Builder message1 = new AlertDialog.Builder(Enter.this);
+                LayoutInflater inflater1 = getLayoutInflater();
+                final View dialogView1 = inflater1.inflate(R.layout.known_devices, null);
+                //   final EditText etReleaseMessage = dialogView.findViewById(R.id.etReleaseMessage);
+                final RadioButton rbSTM = dialogView1.findViewById(R.id.rbSTM);
+                final RadioButton rbRasp = dialogView1.findViewById(R.id.rbRasp);
+                final ListView lv1 = dialogView1.findViewById(R.id.lvPairedDevices);
+
+                final TextView tvBname1 = dialogView1.findViewById(R.id.tvBName);
+                final TextView tvBmac1 = dialogView1.findViewById(R.id.tvBmac);
+                final ImageView ivType1 = dialogView1.findViewById(R.id.ivType);
+                final LinearLayout llSelected1 = dialogView1.findViewById(R.id.llSelected);
+                choosed = false;
+                llSelected1.setVisibility(View.GONE);
+
+                final ArrayList<BluetoothDevice> auxBluetooth = new ArrayList<>();
+
+
+                // final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
+
+
+                message1.setView(dialogView1);
+                message1.setTitle("Bluetooth Devices");
+                message1.setMessage("Select the device that you want to add!!");
+
+
+                rbSTM.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        auxBluetooth.clear();
+
+                        for (int i = 0; i < loadedDevices.size(); i++) {
+                            if (loadedDevices.get(i).deviceType.contains("STM"))
+                                auxBluetooth.add(loadedDevices.get(i).device);
+                        }
+
+                        MyBluetoothAdapter adapter = new MyBluetoothAdapter(getApplicationContext(), auxBluetooth, 1);
+
+                        choosed = false;
+                        lv1.setAdapter(adapter);
+
+                        llSelected1.setVisibility(View.GONE);
+                        lv1.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                rbRasp.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        auxBluetooth.clear();
+
+                        for (int i = 0; i < loadedDevices.size(); i++) {
+                            if (loadedDevices.get(i).deviceType.contains("RASP"))
+                                auxBluetooth.add(loadedDevices.get(i).device);
+                        }
+                        MyBluetoothAdapter adapter = new MyBluetoothAdapter(getApplicationContext(), auxBluetooth, 2);
+
+                        choosed = false;
+                        lv1.setAdapter(adapter);
+                        llSelected1.setVisibility(View.GONE);
+                        lv1.setVisibility(View.VISIBLE);
+
+
+                    }
+                });
+
+                lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ApplicationClass.target = listb.get(position);
+
+                        //  Toast.makeText(Enter.this, "Device added succesfully " + listb.get(position).getName(), Toast.LENGTH_SHORT).show();
+                        tvBname1.setText(listb.get(position).getName());
+                        tvBmac1.setText(listb.get(position).getAddress());
+                        if (rbSTM.isChecked()) {
+                            ivType1.setImageResource(R.drawable.stm);
+                        } else if (rbRasp.isChecked()) {
+                            ivType1.setImageResource(R.drawable.rasp);
+                        }
+                        lv1.setVisibility(View.GONE);
+
+                        llSelected1.setVisibility(View.VISIBLE);
+                        choosed = true;
+
+                    }
+                });
+
+
+                message1.setPositiveButton("Comfirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        if (choosed) {
+                            Toast.makeText(Enter.this, "Selected succesfuly", Toast.LENGTH_SHORT).show();
+                            tvDevice.setText(ApplicationClass.target.getName());
+
+                        } else {
+                            Toast.makeText(Enter.this, "Please select one device", Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
+                        }
+
+                    }
+                });
+                message1.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                message1.show();
 
 
                 break;
@@ -337,7 +445,7 @@ public class Enter extends AppCompatActivity {
     public void saveDevice() {
 
         try {
-            FileOutputStream file = openFileOutput("Data.txt", MODE_PRIVATE);  //cria o ficheiro caso nao exitsa, e define a permisao do ficheiro para so o nossa aplicaçao
+            FileOutputStream file = openFileOutput("bluetooth.txt", MODE_PRIVATE);  //cria o ficheiro caso nao exitsa, e define a permisao do ficheiro para so o nossa aplicaçao
             OutputStreamWriter outputFile = new OutputStreamWriter(file);  //cria a connecao com o ficheiro que vamos escrever
 
             for (int i = 0; i < loadedDevices.size(); i++) {
@@ -357,12 +465,12 @@ public class Enter extends AppCompatActivity {
 
     public void loadData() {
         loadedDevices.clear();
-        File file = getApplicationContext().getFileStreamPath("Data.txt");
+        File file = getApplicationContext().getFileStreamPath("bluetooth.txt");
         String linefromFile;
         if (file.exists()) {
             try {
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(openFileInput("Data.txt")));  //abre p ficheiro Data.txt para leitura!
+                BufferedReader reader = new BufferedReader(new InputStreamReader(openFileInput("bluetooth.txt")));  //abre p ficheiro Data.txt para leitura!
                 while ((linefromFile = reader.readLine()) != null) {
                     StringTokenizer tokens = new StringTokenizer(linefromFile, ",");
                     String DeviceName = tokens.nextToken();

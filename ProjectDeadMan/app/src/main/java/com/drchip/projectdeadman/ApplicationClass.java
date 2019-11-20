@@ -4,6 +4,7 @@ import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.os.Handler;
 import android.widget.Toast;
 
 public class ApplicationClass extends Application {
@@ -12,6 +13,10 @@ public class ApplicationClass extends Application {
     public static BluetoothAdapter BA;
     public static BluetoothDevice target;
     public static BluetoothConnectionService mBluetoothConnectionService;
+    public static String deviceType;
+    public static boolean deviceConnected;
+
+    private final Handler mHandler = new Handler();
 
     public static void sendMessage(String message, Context context) {
 
@@ -33,7 +38,13 @@ public class ApplicationClass extends Application {
 
     public void onCreate() {
         super.onCreate();
+        deviceConnected = false;
         BA = BluetoothAdapter.getDefaultAdapter();
+
+        ApplicationClass.mBluetoothConnectionService = new BluetoothConnectionService(this, mHandler);
+
+        ApplicationClass.mBluetoothConnectionService.start();
+
 
     }
 

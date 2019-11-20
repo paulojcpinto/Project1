@@ -100,15 +100,14 @@
             android:id="@+id/imageView4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
             app:srcCompat="@drawable/line" />
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="5"
             android:text="Release Information"
             android:textColor="@color/coloYellow"
             android:textSize="24sp"
@@ -118,7 +117,7 @@
             android:id="@+id/imageView5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
             app:srcCompat="@drawable/line" />
 
     </LinearLayout>
@@ -306,7 +305,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/btnCreate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3.5dp"

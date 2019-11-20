@@ -28,7 +28,7 @@ public class BluetoothConnectionService {
     private static final UUID MY_UUID = UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
     // Member fields
     private final BluetoothAdapter mAdapter;
-    private final Handler mHandler;
+    private Handler mHandler;
     private AcceptThread mAcceptThread;
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
@@ -40,9 +40,14 @@ public class BluetoothConnectionService {
      * @param context The UI Activity Context
      * @param handler A Handler to send messages back to the UI Activity
      */
+
     public BluetoothConnectionService(Context context, Handler handler) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
+        mHandler = handler;
+    }
+
+    public void updateHandlerContex(Handler handler) {
         mHandler = handler;
     }
 
@@ -142,6 +147,10 @@ public class BluetoothConnectionService {
         bundle.putString(Enter.DEVICE_NAME, device.getName());
         msg.setData(bundle);
         mHandler.sendMessage(msg);
+        mHandler.obtainMessage(Enter.CONNECTED_SUCCESS, 1, 0, null)
+                .sendToTarget();
+
+        ApplicationClass.deviceConnected = true;
         setState(STATE_CONNECTED);
     }
 
@@ -161,6 +170,7 @@ public class BluetoothConnectionService {
             mAcceptThread.cancel();
             mAcceptThread = null;
         }
+        ApplicationClass.deviceConnected = false;
         setState(STATE_NONE);
     }
 
@@ -205,6 +215,7 @@ public class BluetoothConnectionService {
         Bundle bundle = new Bundle();
         bundle.putString(Enter.TOAST, "Device connection was lost");
         msg.setData(bundle);
+        ApplicationClass.deviceConnected = false;
         mHandler.sendMessage(msg);
     }
 

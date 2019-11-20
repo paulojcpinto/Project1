@@ -43,6 +43,8 @@ public class MyBluetoothAdapter extends ArrayAdapter<BluetoothDevice> {
             ivType.setImageResource(R.drawable.stm);
         } else if (stmrasp == 2) {
             ivType.setImageResource(R.drawable.rasp);
+        } else {
+            ivType.setImageResource(R.drawable.not_knowned);
         }
 
 
