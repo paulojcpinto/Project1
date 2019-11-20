@@ -115,7 +115,14 @@ int main(void)
   {
 		if(!pp.getNickName(&pp, &c))
 		{
-			
+			GPIOE->ODR 	|=   NumPad_1Lin_Pin;
+	//		GPIOE->ODR 	&=  ~NumPad_1Lin_Pin;
+			GPIOE->ODR 	|=   NumPad_2Col_Pin;
+		//	GPIOE->ODR 	&=  ~NumPad_2Lin_Pin;
+			GPIOE->ODR 	|=   NumPad_3Lin_Pin;
+	//		GPIOE->ODR 	&=  ~NumPad_3Lin_Pin;
+			GPIOE->ODR 	|=   NumPad_4Col_Pin;
+		//	GPIOE->ODR 	&=  ~NumPad_4Lin_Pin;
 		}
 		HAL_Delay(50);
 		

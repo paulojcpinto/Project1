@@ -54,13 +54,17 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOE, NumPad_1Lin_Pin|NumPad_2Lin_Pin|NumPad_3Lin_Pin|NumPad_4Lin_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, EmbLED_Green_Pin|LedGreen_Pin|EmbLED_Red_Pin|LedRed_Pin 
                           |EmbLED_Blue_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PEPin PEPin PEPin PEPin */
   GPIO_InitStruct.Pin = NumPad_1Lin_Pin|NumPad_2Lin_Pin|NumPad_3Lin_Pin|NumPad_4Lin_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PBPin PBPin PBPin PBPin 
@@ -72,19 +76,22 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = MotionSensor_Pin;
+  /*Configure GPIO pins : PGPin PGPin */
+  GPIO_InitStruct.Pin = MotionSensor_Pin|NumPad_4Col_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(MotionSensor_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PDPin PDPin PDPin PDPin */
-  GPIO_InitStruct.Pin = NumPad_1Col_Pin|NumPad_2Col_Pin|NumPad_3Col_Pin|NumPad_4Col_Pin;
+  /*Configure GPIO pins : PDPin PDPin PDPin */
+  GPIO_InitStruct.Pin = NumPad_1Col_Pin|NumPad_2Col_Pin|NumPad_3Col_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI3_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI3_IRQn);
+
   HAL_NVIC_SetPriority(EXTI4_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI4_IRQn);
 
@@ -99,7 +106,8 @@ void HAL_GPIO_EXTI_Callback ( uint16_t GPIO_PIN )
 	switch ( GPIO_PIN )
 	{
 		case NumPad_1Col_Pin:
-		{			HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
+		{			
+			HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
 			switch ( line_numPad )
 			{
 				case NumPad_1Lin_Pin:
@@ -125,7 +133,8 @@ void HAL_GPIO_EXTI_Callback ( uint16_t GPIO_PIN )
 				
 		}; break;
 		case NumPad_2Col_Pin:
-		{			HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
+		{			
+			HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
 			switch ( line_numPad )
 			{
 				case NumPad_1Lin_Pin:
@@ -150,7 +159,8 @@ void HAL_GPIO_EXTI_Callback ( uint16_t GPIO_PIN )
 			}
 		}; break;
 		case NumPad_3Col_Pin:
-		{			HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
+		{			
+			HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
 			switch ( line_numPad )
 			{
 				case NumPad_1Lin_Pin:
