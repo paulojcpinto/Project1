@@ -22,10 +22,11 @@
 #include "main.h"
 #include "usart.h"
 #include "gpio.h"
-#include "user.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+
+#include "user.h"
 
 /* USER CODE END Includes */
 

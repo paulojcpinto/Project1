@@ -1,11 +1,11 @@
 --cpu Cortex-M7.fp.dp
 "ppppppp\startup_stm32f767xx.o"
+"ppppppp\user.o"
 "ppppppp\main.o"
 "ppppppp\gpio.o"
 "ppppppp\usart.o"
 "ppppppp\stm32f7xx_it.o"
 "ppppppp\stm32f7xx_hal_msp.o"
-"ppppppp\user.o"
 "ppppppp\stm32f7xx_hal_cortex.o"
 "ppppppp\stm32f7xx_hal_tim.o"
 "ppppppp\stm32f7xx_hal_tim_ex.o"
