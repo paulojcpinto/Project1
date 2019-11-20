@@ -8,4 +8,11 @@
         android:orderInCategory="101"
         android:title="AddDevice"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/SelectDevice"
+        android:icon="@drawable/bluetooth"
+        android:orderInCategory="102"
+        android:title="SelectDevice"
+        app:showAsAction="ifRoom" />
+
 </menu>

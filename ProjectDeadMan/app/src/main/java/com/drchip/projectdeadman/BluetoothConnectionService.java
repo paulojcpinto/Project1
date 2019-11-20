@@ -359,7 +359,7 @@ public class BluetoothConnectionService {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
                     // Send the obtained bytes to the UI Activity
-                    mHandler.obtainMessage(Enter.MESSAGE_READ, bytes, -1, buffer)
+                    mHandler.obtainMessage(Enter.MESSAGE_READ, bytes, 0, buffer)
                             .sendToTarget();
                 } catch (IOException e) {
                     connectionLost();

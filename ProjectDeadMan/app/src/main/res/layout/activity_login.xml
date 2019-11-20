@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorPrimaryLight"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <ProgressBar
@@ -31,15 +31,25 @@
         android:visibility="gone" />
 
     <LinearLayout
+        android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/login_form"
         android:orientation="vertical">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/rasp" />
 
             <LinearLayout
                 android:id="@+id/linearLayout4"
@@ -49,7 +59,9 @@
                 android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.94">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -113,7 +125,7 @@
                 android:layout_marginBottom="30dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/linearLayout"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <Button
@@ -141,15 +153,6 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/rasp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
