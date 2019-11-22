@@ -21,7 +21,17 @@
 #include "gpio.h"
 /* USER CODE BEGIN 0 */
 
-#define line_numPad		GPIOE->IDR & 0x0F0
+#define 		line_mask 			GPIOE->ODR & 0x03C
+
+uint8_t NumPad [4][4]  =		{'1',			'2',		 '3',			'A',
+	
+														 '4',			'5',		 '6',			'B',
+	
+														 '7',			'8',		 '9',			'C',
+	
+														 '*',			'0',		 '#',			'D'	};
+
+
 
 /* USER CODE END 0 */
 
@@ -107,35 +117,39 @@ void HAL_GPIO_EXTI_Callback ( uint16_t GPIO_PIN )
 	{
 		case NumPad_1Col_Pin:
 		{			
-			HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
-			switch ( line_numPad )
+			//HAL_GPIO_TogglePin(GPIOB, EmbLED_Red_Pin);
+			
+			switch ( line_mask  )
 			{
 				case NumPad_1Lin_Pin:
 				{
-					
+					HAL_GPIO_TogglePin(GPIOB, EmbLED_Green_Pin);
 				}; break;
 				
 				case NumPad_2Lin_Pin:
 				{
-					
+					HAL_GPIO_TogglePin(GPIOB, EmbLED_Red_Pin);
 				}; break;
 				
 				case NumPad_3Lin_Pin:
 				{
-					
+					HAL_GPIO_TogglePin(GPIOB, EmbLED_Blue_Pin);
 				}; break;
 				
 				case NumPad_4Lin_Pin:
 				{
-					
+					HAL_GPIO_TogglePin(GPIOB, EmbLED_Red_Pin);
 				}; break;
 			}
-				
+			
 		}; break;
+		
 		case NumPad_2Col_Pin:
-		{			
-			HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
-			switch ( line_numPad )
+		{	
+			
+			HAL_GPIO_TogglePin(GPIOB, EmbLED_Green_Pin);
+			
+			switch ( line_mask  )
 			{
 				case NumPad_1Lin_Pin:
 				{
@@ -156,12 +170,15 @@ void HAL_GPIO_EXTI_Callback ( uint16_t GPIO_PIN )
 				{
 					
 				}; break;
-			}
+			}			
+			
 		}; break;
+	
 		case NumPad_3Col_Pin:
 		{			
-			HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
-			switch ( line_numPad )
+			HAL_GPIO_TogglePin(GPIOB, EmbLED_Red_Pin);
+			
+			switch ( line_mask  )
 			{
 				case NumPad_1Lin_Pin:
 				{
@@ -184,9 +201,12 @@ void HAL_GPIO_EXTI_Callback ( uint16_t GPIO_PIN )
 				}; break;
 			}
 		} break;
+		
 		case NumPad_4Col_Pin:
-		{			HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_7);
-			switch ( line_numPad )
+		{			
+			HAL_GPIO_TogglePin(GPIOB, EmbLED_Blue_Pin);
+			
+			switch ( line_mask  )
 			{
 				case NumPad_1Lin_Pin:
 				{

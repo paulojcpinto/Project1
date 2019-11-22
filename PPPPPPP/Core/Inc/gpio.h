@@ -33,6 +33,8 @@
 
 /* USER CODE BEGIN Private defines */
 
+#define line_output GPIOE->ODR
+
 /* USER CODE END Private defines */
 
 void MX_GPIO_Init(void);

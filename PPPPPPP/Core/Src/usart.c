@@ -433,7 +433,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart){
 
 int messageReceived(int *c){
 	static int out_index = 0;
-	int return_value = 0;
+//	int return_value = 0;
 	while(UART3Tx_index != UART3Rx_index){
 		if(UART3Rx_Buffer[UART3Tx_index] == '<'){
 			*c = 3;
