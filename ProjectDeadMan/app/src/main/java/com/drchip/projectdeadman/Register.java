@@ -256,7 +256,10 @@ public class Register extends AppCompatActivity {
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 ApplicationClass.sendMessage("<L>", Register.this);
+                startActivityForResult(new Intent(Register.this, UserInstructionsRASP.class), 1);
+
 
             }
         });
