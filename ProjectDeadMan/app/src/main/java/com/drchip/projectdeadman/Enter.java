@@ -152,9 +152,14 @@ public class Enter extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(ApplicationClass.deviceConnected)
+                {
+                    startActivity(new Intent(Enter.this,Register.class));
+                    Enter.this.finish();
+                }
+                else Toast.makeText(Enter.this, "Please connect to an device", Toast.LENGTH_SHORT).show();
 
-                startActivity(new Intent(Enter.this,Register.class));
-                Enter.this.finish();
+
 
 
             }
@@ -162,9 +167,14 @@ public class Enter extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(ApplicationClass.deviceConnected)
+                {
+                    startActivity(new Intent(Enter.this,Login.class));
+                    Enter.this.finish();
+                }                else Toast.makeText(Enter.this, "Please connect to an device", Toast.LENGTH_SHORT).show();
 
-                startActivity(new Intent(Enter.this,Login.class));
-                Enter.this.finish();
+
+
 
             }
         });

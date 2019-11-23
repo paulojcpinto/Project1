@@ -3,12 +3,16 @@ package com.drchip.projectdeadman;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +21,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,6 +35,7 @@ public class Register extends AppCompatActivity {
     public static final int MESSAGE_DEVICE_NAME = 4;
     public static final int MESSAGE_TOAST = 5;
     public static final String TOAST = "toast";
+    private MenuItem playMenu;
 
     public static final int CONNECTED_SUCCESS = 6;
     EditText etDate, etMessage, etPlatform;
@@ -42,13 +48,19 @@ public class Register extends AppCompatActivity {
                 case MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
                     String readMessage = new String(readBuf, 0, msg.arg1);
+                    if (readMessage.contains("STM") || readMessage.contains("RASP")) {
 
+                        playMenu.setIcon(R.drawable.bluetooth_on);
+
+                    }
 
                     Toast.makeText(Register.this, "Receibed " + readMessage, Toast.LENGTH_SHORT).show();
                     break;
 
                 case MESSAGE_TOAST:
                     if (msg.getData().getString(TOAST).contains("Device connection was lost")) {
+                        playMenu.setIcon(R.drawable.bluetooth_off);
+
                         Toast.makeText(Register.this, "Device was lost", Toast.LENGTH_SHORT).show();
                     }
                     Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
@@ -249,6 +261,44 @@ public class Register extends AppCompatActivity {
             }
         });
 
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu ) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate( R.menu.login_register_menu, menu );
+        playMenu = menu.findItem(R.id.BluetoothState);
+        if(ApplicationClass.deviceConnected)
+        {
+            playMenu.setIcon(R.drawable.bluetooth_on);
+        }
+        else
+        {
+            playMenu.setIcon(R.drawable.bluetooth_off);
+        }
+        return super.onCreateOptionsMenu(menu) ;
+    }
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {   // override metodos em code !!!
+
+        switch (item.getItemId()) {
+
+            case R.id.BluetoothState:
+                if(ApplicationClass.deviceConnected)
+                {
+                    Toast.makeText(this, "Device is already connected", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    BluetoothDevice device = ApplicationClass.BA.getRemoteDevice(ApplicationClass.target.getAddress());
+                    // Attempt to connect to the device
+                    ApplicationClass.mBluetoothConnectionService.connect(device);
+
+                }
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
 
     }
 }
