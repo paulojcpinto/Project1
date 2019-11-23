@@ -17,10 +17,10 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.Calendar;
 
 public class Register extends AppCompatActivity {
 
@@ -244,7 +244,10 @@ public class Register extends AppCompatActivity {
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 ApplicationClass.sendMessage("<L>", Register.this);
+                startActivityForResult(new Intent(Register.this,UserInstructionsRASP.class),1);
+
 
             }
         });
