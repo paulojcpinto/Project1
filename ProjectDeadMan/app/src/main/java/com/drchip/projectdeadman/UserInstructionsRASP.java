@@ -14,11 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class UserInstructionsRASP extends AppCompatActivity {
 
-    TextView tvFingerRasp, tvFingerRaspDescription, tvFaceReco , tvFaceRecoDescription, tvImageNumber;
+    TextView tvFingerRasp, tvFingerRaspDescription, tvFaceReco, tvFaceRecoDescription, tvImageNumber;
     ImageView ivFingerRasp, ivFaceStart, ivImageCount;
     ProgressBar pbImageCount;
     Button btnCancel, btnConfirm;
     LinearLayout linFaceDescription, linImageCount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +36,7 @@ public class UserInstructionsRASP extends AppCompatActivity {
         pbImageCount = findViewById(R.id.pbImageCount);
         btnCancel = findViewById(R.id.btnCancel);
         btnConfirm = findViewById(R.id.btnConfirm);
-        linFaceDescription= findViewById(R.id.linFaceDescripiton);
+        linFaceDescription = findViewById(R.id.linFaceDescripiton);
         linImageCount = findViewById(R.id.linImageCount);
 
 
@@ -46,15 +47,9 @@ public class UserInstructionsRASP extends AppCompatActivity {
 
         pbImageCount.setProgress(0);
 
-        Animation animation = AnimationUtils.loadAnimation(this,R.anim.rotate);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate);
         animation.setStartTime(10);
         ivFingerRasp.startAnimation(animation);
-
-
-
-
-
-
 
 
     }
