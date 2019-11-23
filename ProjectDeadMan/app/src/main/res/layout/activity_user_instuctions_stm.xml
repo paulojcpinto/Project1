@@ -47,7 +47,7 @@
                     android:layout_marginEnd="15dp">
 
                     <TextView
-                        android:id="@+id/tvFingerRasp"
+                        android:id="@+id/tvFingerStm"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -60,7 +60,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/ivFingerRasp"
+                        android:id="@+id/ivFingerStm"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="right|top"
@@ -68,8 +68,6 @@
                         android:foregroundGravity="right"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.9"
-                        app:layout_constraintStart_toEndOf="@+id/textView7"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/loading" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -107,7 +105,7 @@
                     android:layout_marginEnd="15dp">
 
                     <TextView
-                        android:id="@+id/tvFacereco"
+                        android:id="@+id/tvPinCode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -120,7 +118,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/ivFaceStart"
+                        android:id="@+id/ivPinCode"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="right|top"
@@ -128,8 +126,6 @@
                         android:foregroundGravity="right"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.9"
-                        app:layout_constraintStart_toEndOf="@+id/tvPinCode"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/loading" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

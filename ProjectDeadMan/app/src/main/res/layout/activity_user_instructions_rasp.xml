@@ -36,7 +36,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:orientation="horizontal">
@@ -44,18 +44,18 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp">
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp">
 
                     <TextView
                         android:id="@+id/tvFingerRasp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left"
                         android:layout_marginBottom="4dp"
+                        android:clickable="true"
                         android:text="Place your finger in the fingerprint sensor"
                         android:textColor="@color/hyperText"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -64,13 +64,10 @@
                         android:id="@+id/ivFingerRasp"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:layout_gravity="right|top"
-                        android:layout_marginStart="36dp"
                         android:layout_marginBottom="1dp"
                         android:foregroundGravity="right"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/tvFingerRasp"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/loading" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -105,8 +102,8 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="15dp">
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp">
 
                     <TextView
                         android:id="@+id/tvFacereco"
@@ -114,9 +111,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:layout_marginBottom="4dp"
+                        android:clickable="true"
                         android:text="Place your face in the camera range!"
                         android:textColor="@color/hyperText"
-                        android:textSize="16sp"
+                        android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -126,12 +124,10 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="right|top"
-                        android:layout_marginStart="72dp"
                         android:layout_marginBottom="1dp"
                         android:foregroundGravity="right"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/tvFacereco"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/loading" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -204,6 +200,7 @@
             android:id="@+id/textView8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:gravity="center_horizontal"
             android:text="DataSet Started  please stay in camera range!"
             android:textColor="@color/coloYellow"
@@ -214,7 +211,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
@@ -225,7 +222,7 @@
                 android:layout_gravity="center"
                 android:text="Images taken:"
                 android:textColor="@color/colorAccent"
-                android:textSize="30sp"
+                android:textSize="28sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -244,6 +241,9 @@
                 android:id="@+id/ivImageCount"
                 android:layout_width="125dp"
                 android:layout_height="125dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 app:srcCompat="@drawable/loading2" />
 
         </LinearLayout>
@@ -254,7 +254,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/buttons2"
             android:backgroundTint="@color/colorPrimary"
@@ -264,6 +264,14 @@
             android:progressTint="@color/colorAccent" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnTeste"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

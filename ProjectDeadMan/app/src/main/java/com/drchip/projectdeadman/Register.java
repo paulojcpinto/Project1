@@ -21,11 +21,11 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.Calendar;
 
 public class Register extends AppCompatActivity {
 
@@ -36,6 +36,7 @@ public class Register extends AppCompatActivity {
     public static final int MESSAGE_TOAST = 5;
     public static final String TOAST = "toast";
     private MenuItem playMenu;
+    private MenuItem DeviceType;
 
     public static final int CONNECTED_SUCCESS = 6;
     EditText etDate, etMessage, etPlatform;
@@ -91,10 +92,7 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setIcon(R.drawable.stmlogo);
-        actionBar.setTitle(" Register");
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setTitle("Register");
 
 
 
@@ -104,6 +102,7 @@ public class Register extends AppCompatActivity {
         btnCreate = findViewById(R.id.btnCreate);
 
         ApplicationClass.mBluetoothConnectionService.updateHandlerContex(mHandler);
+
 
 
 
@@ -271,6 +270,17 @@ public class Register extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate( R.menu.login_register_menu, menu );
         playMenu = menu.findItem(R.id.BluetoothState);
+        DeviceType = menu.findItem(R.id.DeviceTyepe);
+        if (ApplicationClass.deviceConnected) {
+            if (ApplicationClass.deviceType.contains("STM"))
+                DeviceType.setIcon(R.drawable.stm);
+            else if (ApplicationClass.deviceType.contains("RASP"))
+                DeviceType.setIcon(R.drawable.rasp);
+            else DeviceType.setIcon(R.drawable.not_knowned);
+            playMenu.setIcon(R.drawable.bluetooth_on);
+        } else {
+            playMenu.setIcon(R.drawable.bluetooth_off);
+        }
         if(ApplicationClass.deviceConnected)
         {
             playMenu.setIcon(R.drawable.bluetooth_on);
@@ -298,6 +308,11 @@ public class Register extends AppCompatActivity {
                     ApplicationClass.mBluetoothConnectionService.connect(device);
 
                 }
+                break;
+            case R.id.DeviceTyepe:
+
+                Toast.makeText(this, "You are connected to an " + ApplicationClass.deviceType + " by the name " + ApplicationClass.target.getName(), Toast.LENGTH_SHORT).show();
+
                 break;
 
         }

@@ -20,8 +20,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.snackbar.Snackbar;
-
 public class Login extends AppCompatActivity {
 
     public static final int MESSAGE_STATE_CHANGE = 1;
@@ -170,9 +168,9 @@ public class Login extends AppCompatActivity {
 
                 }
                 break;
-            case  R.id.DeviceTyepe: ;
+            case R.id.DeviceTyepe:
 
-                Snackbar.make(this.getCurrentFocus(), "You are connected to an "+ ApplicationClass.deviceType +" by the name "+ApplicationClass.target.getName(), Snackbar.LENGTH_SHORT).show();
+                Toast.makeText(this, "You are connected to an " + ApplicationClass.deviceType + " by the name " + ApplicationClass.target.getName(), Toast.LENGTH_SHORT).show();
 
                 break;
 
