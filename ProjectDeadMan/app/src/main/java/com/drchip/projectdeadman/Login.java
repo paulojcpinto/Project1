@@ -109,6 +109,9 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //todo implement bluetooth method
+
+                startActivity(new Intent(Login.this, MainActivity.class));
+
             }
         });
 

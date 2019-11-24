@@ -95,16 +95,9 @@ public class UserInstructionsRASP extends AppCompatActivity {
                     ApplicationClass.sendMessage("<L>", UserInstructionsRASP.this);
                     break;
 
-                case TIMER_OVER:
-                    ivImageCount.clearAnimation();
-                    ivImageCount.setImageResource(R.drawable.loading2);
-                    ivImageCount.startAnimation(rotate);
-                    break;
-
             }
         }
     };
-    //runs without timer be reposting self
     private MenuItem DeviceType;
 
     @Override

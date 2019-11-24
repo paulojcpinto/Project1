@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,9 +24,6 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -38,6 +37,9 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 public class Enter extends AppCompatActivity {
 
     public static final int MESSAGE_STATE_CHANGE = 1;
@@ -50,6 +52,19 @@ public class Enter extends AppCompatActivity {
     public static final String TOAST = "toast";
     private static final String TAG = "BluetoothChatService";
     ArrayList<MybluetoothDevice> loadedDevices;
+    Animation rotate;
+    ImageView ivLogo, ivStatus;
+    ArrayList<BluetoothDevice> listb;
+
+    String name;
+    EditText etSend;
+    TextView tvDevice;
+    Button btnLogin, btnRegister;
+    private Set<BluetoothDevice> pairedDevices;
+    boolean choosed, connected;
+    Animation fade_in;
+    Animation to_start;
+    Animation fade_out;
     @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
         @Override
@@ -63,7 +78,9 @@ public class Enter extends AppCompatActivity {
                     if (readMessage.contains("STM")) {
                         ApplicationClass.deviceType = "STM";
                         connected = true;
+                        ivStatus.clearAnimation();
                         ivStatus.setImageResource(R.drawable.done);
+                        ivStatus.startAnimation(fade_in);
 
                         Toast.makeText(Enter.this, "Connected with sucess", Toast.LENGTH_SHORT).show();
                         boolean canSave = true;
@@ -101,7 +118,9 @@ public class Enter extends AppCompatActivity {
                 case MESSAGE_TOAST:
                     if (msg.getData().getString(TOAST).contains("Device connection was lost")) {
                         connected = false;
-                        ivStatus.setImageResource(R.drawable.error);
+                        // ivStatus.setImageResource(R.drawable.error);
+                        ivStatus.clearAnimation();
+                        ivStatus.startAnimation(fade_out);
                     }
                     Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
                             Toast.LENGTH_SHORT).show();
@@ -114,15 +133,6 @@ public class Enter extends AppCompatActivity {
             }
         }
     };
-    ImageView ivLogo, ivStatus;
-    ArrayList<BluetoothDevice> listb;
-
-    String name;
-    EditText etSend;
-    TextView tvDevice;
-    Button btnLogin, btnRegister;
-    private Set<BluetoothDevice> pairedDevices;
-    boolean choosed, connected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +142,14 @@ public class Enter extends AppCompatActivity {
         btnRegister= findViewById(R.id.btnRegister);
         tvDevice = findViewById(R.id.tvDevice);
         ivStatus = findViewById(R.id.ivStatus);
+
+
+        rotate = AnimationUtils.loadAnimation(this, R.anim.rotate);
+        rotate.setStartTime(10);
+        fade_in = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        fade_in.setStartOffset(1);
+        to_start = AnimationUtils.loadAnimation(this, R.anim.rotate_to_start);
+        fade_out = AnimationUtils.loadAnimation(this, R.anim.fade_out);
 
         connected = false;
         listb = new ArrayList<BluetoothDevice>();
@@ -200,14 +218,39 @@ public class Enter extends AppCompatActivity {
             ivStatus.setImageResource(R.drawable.done);
         }
 
+        fade_out.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                ivStatus.clearAnimation();
+
+                ivStatus.setImageResource(R.drawable.error);
+                ivStatus.startAnimation(fade_in);
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
         ivStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (!connected) {
+
                     // Get the BLuetoothDevice object
                     //String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
                     //
+                    ivStatus.setImageResource(R.drawable.loading2);
+                    ivStatus.clearAnimation();
+                    ivStatus.startAnimation(rotate);
                     BluetoothDevice device = ApplicationClass.BA.getRemoteDevice(ApplicationClass.target.getAddress());
                     // Attempt to connect to the device
                     ApplicationClass.mBluetoothConnectionService.connect(device);
@@ -219,9 +262,10 @@ public class Enter extends AppCompatActivity {
 //                    ApplicationClass.sendMessage("<L>", Enter.this);
 
                 } else {
+
                     ApplicationClass.mBluetoothConnectionService.stop();
                     connected = false;
-                    ivStatus.setImageResource(R.drawable.error);
+                    //  ivStatus.setImageResource(R.drawable.error);
                     //Toast.makeText(Enter.this, "You closed the connection", Toast.LENGTH_SHORT).show();
 
 

@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 public class ApplicationClass extends Application {
@@ -15,6 +16,8 @@ public class ApplicationClass extends Application {
     public static BluetoothConnectionService mBluetoothConnectionService;
     public static String deviceType;
     public static boolean deviceConnected;
+    public static MenuItem DeviceType;
+    public static MenuItem playMenu;
 
     private final Handler mHandler = new Handler();
 
@@ -27,6 +30,7 @@ public class ApplicationClass extends Application {
         }
         // Check that there's actually something to send
         if (message.length() > 0) {
+
             // Get the message bytes and tell the BluetoothChatService to write
             byte[] send = message.getBytes();
             mBluetoothConnectionService.write(send);

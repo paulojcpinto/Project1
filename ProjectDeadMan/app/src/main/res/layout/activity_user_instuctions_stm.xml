@@ -7,7 +7,16 @@
     android:background="@color/colorPrimaryLight"
     tools:context=".UserInstuctionsSTM">
 
+    <Button
+        android:id="@+id/btnTeste"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
+        android:id="@+id/linearLayout9"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -53,8 +62,10 @@
                         android:layout_gravity="left"
                         android:layout_marginBottom="4dp"
                         android:text="Place your finger in the fingerprint sensor"
+                        android:textAllCaps="false"
                         android:textColor="@color/hyperText"
                         android:textSize="16sp"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -75,7 +86,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tvFingeRaspDescription"
+                android:id="@+id/tvFingeStmDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -86,6 +97,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linPinCode"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -113,6 +125,7 @@
                         android:text="Put the Pin Code choosed before"
                         android:textColor="@color/hyperText"
                         android:textSize="16sp"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -133,7 +146,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tvFacerecDescription"
+                android:id="@+id/tvPinCodeDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -146,6 +159,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -179,6 +193,39 @@
             android:textColor="@color/coloYellow"
             android:textSize="18sp"
             android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linSuccess"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
+
+        <ImageView
+            android:id="@+id/ivSuccess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/correct" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="User Created Succesfully"
+            android:textColor="@color/coloYellow"
+            android:textSize="30sp" />
     </LinearLayout>
 
 

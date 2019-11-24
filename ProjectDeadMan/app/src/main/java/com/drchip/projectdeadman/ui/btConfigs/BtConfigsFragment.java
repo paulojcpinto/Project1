@@ -1,4 +1,4 @@
-package com.drchip.projectdeadman.ui.home;
+package com.drchip.projectdeadman.ui.btConfigs;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import com.drchip.projectdeadman.R;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
-public class HomeFragment extends Fragment {
-
+public class BtConfigsFragment extends Fragment {
 
     public static final int MESSAGE_STATE_CHANGE = 1;
     public static final int MESSAGE_READ = 2;
@@ -63,15 +63,15 @@ public class HomeFragment extends Fragment {
             }
         }
     };
-
-
+    private BtConfigViewModel btConfigViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
         ApplicationClass.mBluetoothConnectionService.updateHandlerContex(mHandler);
 
+        btConfigViewModel =
+                ViewModelProviders.of(this).get(BtConfigViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_btconfigs, container, false);
 
         return root;
     }

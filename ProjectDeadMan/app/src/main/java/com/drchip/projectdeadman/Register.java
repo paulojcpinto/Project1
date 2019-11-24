@@ -256,8 +256,9 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                ApplicationClass.sendMessage("<L>", Register.this);
-                startActivityForResult(new Intent(Register.this, UserInstructionsRASP.class), 1);
+                //ApplicationClass.sendMessage("<L>", Register.this);
+                //startActivityForResult(new Intent(Register.this, UserInstructionsRASP.class), 1);
+                startActivityForResult(new Intent(Register.this, UserInstuctionsSTM.class), 1);
 
 
             }
@@ -289,6 +290,7 @@ public class Register extends AppCompatActivity {
         {
             playMenu.setIcon(R.drawable.bluetooth_off);
         }
+
         return super.onCreateOptionsMenu(menu) ;
     }
 
