@@ -296,6 +296,7 @@ public class BluetoothConnectionService {
             // Get a BluetoothSocket for a connection with the
             // given BluetoothDevice
             try {
+                //tmp = device.createRfcommSocketToServiceRecord(myUUID);
                 tmp = device.createInsecureRfcommSocketToServiceRecord(myUUID);
             } catch (IOException e) {
             }
@@ -364,14 +365,25 @@ public class BluetoothConnectionService {
         public void run() {
             byte[] buffer = new byte[1024];
             int bytes;
+            int bytesRead = 0;
             // Keep listening to the InputStream while connected
             while (true) {
                 try {
+
                     // Read from the InputStream
+                    //   do{
+
                     bytes = mmInStream.read(buffer);
+                    bytesRead += bytes;
+
+                    //  }while (buffer[bytesRead]!='>');
+                    //bytes = mmInStream.read(buffer);
+                    //  mmInStream.reset();
+
                     // Send the obtained bytes to the UI Activity
-                    mHandler.obtainMessage(Enter.MESSAGE_READ, bytes, 0, buffer)
+                    mHandler.obtainMessage(Enter.MESSAGE_READ, bytes, -1, buffer)
                             .sendToTarget();
+
                 } catch (IOException e) {
                     connectionLost();
                     break;

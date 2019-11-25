@@ -16,14 +16,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.drchip.projectdeadman.ApplicationClass;
-import com.drchip.projectdeadman.R;
-
-import java.util.TimerTask;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.drchip.projectdeadman.ApplicationClass;
+import com.drchip.projectdeadman.R;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TerminalFragment extends Fragment {
 
@@ -33,6 +35,7 @@ public class TerminalFragment extends Fragment {
     public static final int MESSAGE_DEVICE_NAME = 4;
     public static final int MESSAGE_TOAST = 5;
     public static final int CONNECTED_SUCCESS = 6;
+    public static final int UPDATE_IMAGE_ERROR = 7;
     public static final String TOAST = "toast";
     String message;
     TextView tvDisplay;
@@ -40,6 +43,7 @@ public class TerminalFragment extends Fragment {
     Button btnSend;
     ImageView ivLoading;
     Animation rotate;
+    Timer timer;
     Animation fade_in;
     @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
@@ -49,30 +53,33 @@ public class TerminalFragment extends Fragment {
 
                 case MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
-                    String readMessage = new String(readBuf, 0, msg.arg1);
+                    String readMessage = new String(readBuf, StandardCharsets.US_ASCII);
                     if (readMessage.contains("STM") || readMessage.contains("RASP")) {
 
                         ApplicationClass.playMenu.setIcon(R.drawable.bluetooth_on);
                         message = "";
 
                     } else {
-                        // tvDisplay.append(readMessage);
+                        //tvDisplay.append(readMessage);
 
-                        // Timer timer = new Timer();
-                        //timer.schedule(new TerminalFragment.firstTask(), 500, 100);
                         message += readMessage;
 
-                        if (message.contains(">")) {
+                        if (message.contains(">") && message.contains("<")) {
 
+                            if (timer != null) {
+                                timer.purge();
+                                timer.cancel();
+                            }
 
                             ivLoading.setImageResource(R.drawable.correct);
                             ivLoading.clearAnimation();
                             ivLoading.startAnimation(fade_in);
-                            // timer.cancel();
-                            //timer.purge();
                             tvDisplay.append(message);
                             message = "";
                             tvDisplay.append("\n");
+                        } else {
+                            timer = new Timer();
+                            timer.schedule(new TerminalFragment.firstTask(), 1000, 90000);
                         }
 //                        else
 //                        {
@@ -100,6 +107,16 @@ public class TerminalFragment extends Fragment {
                     ApplicationClass.sendMessage("O", getContext());
 
                     ApplicationClass.sendMessage("<L>", getContext());
+                    break;
+                case UPDATE_IMAGE_ERROR:
+                    ApplicationClass.sendMessage("<E>", getContext());
+
+                    ivLoading.clearAnimation();
+                    ivLoading.setImageResource(R.drawable.error);
+                    ivLoading.startAnimation(fade_in);
+                    message = "";
+                    timer.purge();
+                    timer.cancel();
                     break;
 
             }
@@ -140,7 +157,9 @@ public class TerminalFragment extends Fragment {
 
                 ivLoading.clearAnimation();
                 ivLoading.startAnimation(rotate);
-                ApplicationClass.sendMessage(etMessage.getText().toString().trim(), getContext());
+                ApplicationClass.sendMessage("O", getContext());
+
+                ApplicationClass.sendMessage("<N" + etMessage.getText().toString().trim() + ">", getContext());
             }
         });
 
@@ -172,15 +191,15 @@ public class TerminalFragment extends Fragment {
         return root;
     }
 
+
     class firstTask extends TimerTask {
 
         @Override
         public void run() {
+            mHandler.obtainMessage(TerminalFragment.UPDATE_IMAGE_ERROR, 1, 0, null)
+                    .sendToTarget();
 
-            ivLoading.clearAnimation();
-            //  ivLoading.setImageResource(R.drawable.error);
-            ivLoading.startAnimation(fade_in);
-            message = "";
+
 
 
         }
