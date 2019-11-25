@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -296,7 +297,7 @@ public class BluetoothConnectionService {
             // Get a BluetoothSocket for a connection with the
             // given BluetoothDevice
             try {
-                //tmp = device.createRfcommSocketToServiceRecord(myUUID);
+               // tmp = device.createRfcommSocketToServiceRecord(myUUID);
                 tmp = device.createInsecureRfcommSocketToServiceRecord(myUUID);
             } catch (IOException e) {
             }
@@ -373,16 +374,21 @@ public class BluetoothConnectionService {
                     // Read from the InputStream
                     //   do{
 
-                    bytes = mmInStream.read(buffer);
-                    bytesRead += bytes;
+                    bytes = mmInStream.available();
+                    if(bytes != 0) {
+                        SystemClock.sleep(100); //pause and wait for rest of data. Adjust this depending on your sending speed.
+                        bytes = mmInStream.available(); // how many bytes are ready to be read?
+                        bytes = mmInStream.read(buffer, 0, bytes);
 
+                        mHandler.obtainMessage(Enter.MESSAGE_READ, bytes, -1, buffer)
+                                .sendToTarget();
+                    }
                     //  }while (buffer[bytesRead]!='>');
                     //bytes = mmInStream.read(buffer);
                     //  mmInStream.reset();
 
                     // Send the obtained bytes to the UI Activity
-                    mHandler.obtainMessage(Enter.MESSAGE_READ, bytes, -1, buffer)
-                            .sendToTarget();
+
 
                 } catch (IOException e) {
                     connectionLost();

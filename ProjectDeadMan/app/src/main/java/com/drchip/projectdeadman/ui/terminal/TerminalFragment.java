@@ -2,6 +2,7 @@ package com.drchip.projectdeadman.ui.terminal;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.text.method.ScrollingMovementMethod;
@@ -45,6 +46,7 @@ public class TerminalFragment extends Fragment {
     Animation rotate;
     Timer timer;
     Animation fade_in;
+    CountDownTimer waitTimer;
     @SuppressLint("HandlerLeak")
     private final Handler mHandler = new Handler() {
         @Override
@@ -53,7 +55,7 @@ public class TerminalFragment extends Fragment {
 
                 case MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
-                    String readMessage = new String(readBuf, StandardCharsets.US_ASCII);
+                    String readMessage = new String(readBuf, StandardCharsets.UTF_8);
                     if (readMessage.contains("STM") || readMessage.contains("RASP")) {
 
                         ApplicationClass.playMenu.setIcon(R.drawable.bluetooth_on);
@@ -66,20 +68,38 @@ public class TerminalFragment extends Fragment {
 
                         if (message.contains(">") && message.contains("<")) {
 
-                            if (timer != null) {
-                                timer.purge();
-                                timer.cancel();
+                            if(waitTimer != null) {
+                                waitTimer.cancel();
+                                waitTimer = null;
                             }
 
                             ivLoading.setImageResource(R.drawable.correct);
                             ivLoading.clearAnimation();
                             ivLoading.startAnimation(fade_in);
-                            tvDisplay.append(message);
+                            tvDisplay.append(readMessage);
                             message = "";
                             tvDisplay.append("\n");
                         } else {
-                            timer = new Timer();
-                            timer.schedule(new TerminalFragment.firstTask(), 1000, 90000);
+                            if(waitTimer==null)
+                            waitTimer = new CountDownTimer(1000, 300) {
+
+                                public void onTick(long millisUntilFinished) {
+                                    //called every 300 milliseconds, which could be used to
+                                    //send messages or some other action
+                                }
+
+                                public void onFinish() {
+                                    //After 60000 milliseconds (60 sec) finish current
+                                    //if you would like to execute something when time finishes
+                                    ivLoading.clearAnimation();
+                                    ivLoading.setImageResource(R.drawable.error);
+                                    ivLoading.startAnimation(fade_in);
+                                    message = "";
+                                    waitTimer.cancel();
+                                    waitTimer = null;
+                                    ApplicationClass.sendMessage("<E"+4+">".trim().toString(), getContext());
+                                }
+                            }.start();
                         }
 //                        else
 //                        {
@@ -109,14 +129,15 @@ public class TerminalFragment extends Fragment {
                     ApplicationClass.sendMessage("<L>", getContext());
                     break;
                 case UPDATE_IMAGE_ERROR:
-                    ApplicationClass.sendMessage("<E>", getContext());
+
+                    //ApplicationClass.sendMessage("<E"+4+">", getContext());
 
                     ivLoading.clearAnimation();
                     ivLoading.setImageResource(R.drawable.error);
                     ivLoading.startAnimation(fade_in);
                     message = "";
-                    timer.purge();
-                    timer.cancel();
+
+
                     break;
 
             }
@@ -157,7 +178,7 @@ public class TerminalFragment extends Fragment {
 
                 ivLoading.clearAnimation();
                 ivLoading.startAnimation(rotate);
-                ApplicationClass.sendMessage("O", getContext());
+              //  ApplicationClass.sendMessage("O", getContext());
 
                 ApplicationClass.sendMessage("<N" + etMessage.getText().toString().trim() + ">", getContext());
             }
