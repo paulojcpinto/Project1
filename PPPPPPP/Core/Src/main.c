@@ -26,6 +26,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include "user.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -65,6 +67,7 @@ void SystemClock_Config(void);
   * @retval int
   */
 int main(void)
+
 {
   /* USER CODE BEGIN 1 */
 
@@ -96,7 +99,14 @@ int main(void)
   MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
 	init_UARTs();
-	HAL_UART_Transmit_IT(&huart4, "AbcdefghijklmnopqrsutxZ", 23);
+	//HAL_UART_Transmit_IT(&huart3, (uint8_t *)sizeof(char), 1);
+
+	user pp;
+	pp.getNickName = getNickName;
+	int c = 0;
+	uint8_t *ppp= "paulo jorge";
+	HAL_UART_Transmit_IT(&huart3, ppp, 5);
+	HAL_Delay(50);
 
   /* USER CODE END 2 */
 
@@ -104,6 +114,27 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		if(!pp.getNickName(&pp, &c))
+		{
+			
+			line_output 	|=   NumPad_1Lin_Pin;
+			HAL_Delay(0);
+			line_output		&=  ~NumPad_1Lin_Pin;
+			
+			line_output 	|=   NumPad_2Lin_Pin;
+			HAL_Delay(0);
+			line_output 	&=  ~NumPad_2Lin_Pin;
+			
+			line_output 	|=   NumPad_3Lin_Pin;
+			HAL_Delay(0);
+			line_output 	&=  ~NumPad_3Lin_Pin;
+			
+			line_output 	|=   NumPad_4Lin_Pin;
+			HAL_Delay(0);
+			line_output 	&=  ~NumPad_4Lin_Pin;
+			
+		}
+		HAL_Delay(50);
 		
     /* USER CODE END WHILE */
 

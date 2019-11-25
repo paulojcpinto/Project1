@@ -1,5 +1,6 @@
 --cpu Cortex-M7.fp.dp
 "ppppppp\startup_stm32f767xx.o"
+"ppppppp\user.o"
 "ppppppp\main.o"
 "ppppppp\gpio.o"
 "ppppppp\usart.o"
