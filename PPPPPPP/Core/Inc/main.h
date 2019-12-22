@@ -74,15 +74,18 @@ void Error_Handler(void);
 #define FingerPrint_Uart_Rx_GPIO_Port GPIOE
 #define FingerPrint_Uart_Tx_Pin GPIO_PIN_8
 #define FingerPrint_Uart_Tx_GPIO_Port GPIOE
+#define NumPad_3Col_Pin GPIO_PIN_10
+#define NumPad_3Col_GPIO_Port GPIOB
+#define NumPad_4Col_Pin GPIO_PIN_11
+#define NumPad_4Col_GPIO_Port GPIOB
 #define LedGreen_Pin GPIO_PIN_13
 #define LedGreen_GPIO_Port GPIOB
 #define EmbLED_Red_Pin GPIO_PIN_14
 #define EmbLED_Red_GPIO_Port GPIOB
 #define LedRed_Pin GPIO_PIN_15
 #define LedRed_GPIO_Port GPIOB
-#define NumPad_4Col_Pin GPIO_PIN_3
-#define NumPad_4Col_GPIO_Port GPIOG
-#define NumPad_4Col_EXTI_IRQn EXTI3_IRQn
+#define Output_FingerPrint_Pin GPIO_PIN_9
+#define Output_FingerPrint_GPIO_Port GPIOC
 #define Bluetooth_Uart_Tx_Pin GPIO_PIN_10
 #define Bluetooth_Uart_Tx_GPIO_Port GPIOC
 #define Bluetooth_Uart_Rx_Pin GPIO_PIN_11
@@ -91,21 +94,18 @@ void Error_Handler(void);
 #define WIFI_Uart_Tx_GPIO_Port GPIOC
 #define WIFI_Uart_Rx_Pin GPIO_PIN_2
 #define WIFI_Uart_Rx_GPIO_Port GPIOD
-#define NumPad_1Col_Pin GPIO_PIN_4
-#define NumPad_1Col_GPIO_Port GPIOD
-#define NumPad_1Col_EXTI_IRQn EXTI4_IRQn
-#define NumPad_2Col_Pin GPIO_PIN_5
-#define NumPad_2Col_GPIO_Port GPIOD
-#define NumPad_2Col_EXTI_IRQn EXTI9_5_IRQn
-#define NumPad_3Col_Pin GPIO_PIN_6
-#define NumPad_3Col_GPIO_Port GPIOD
-#define NumPad_3Col_EXTI_IRQn EXTI9_5_IRQn
 #define GSM_Usart_Rx_Pin GPIO_PIN_9
 #define GSM_Usart_Rx_GPIO_Port GPIOG
 #define GSM_Usart_Tx_Pin GPIO_PIN_14
 #define GSM_Usart_Tx_GPIO_Port GPIOG
 #define EmbLED_Blue_Pin GPIO_PIN_7
 #define EmbLED_Blue_GPIO_Port GPIOB
+#define NumPad_1Col_Pin GPIO_PIN_8
+#define NumPad_1Col_GPIO_Port GPIOB
+#define NumPad_1Col_EXTI_IRQn EXTI9_5_IRQn
+#define NumPad_2Col_Pin GPIO_PIN_9
+#define NumPad_2Col_GPIO_Port GPIOB
+#define NumPad_2Col_EXTI_IRQn EXTI9_5_IRQn
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

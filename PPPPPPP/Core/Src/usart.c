@@ -9,10 +9,10 @@
   * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software component is licensed by ST under Ultimate Liberty license
+  * SLA0044, the "License"; You may not use this file except in compliance with
+  * the License. You may obtain a copy of the License at:
+  *                             www.st.com/SLA0044
   *
   ******************************************************************************
   */
@@ -21,32 +21,13 @@
 #include "usart.h"
 
 /* USER CODE BEGIN 0 */
-uint8_t UART3Rx_Buffer[128];
-uint8_t Rx_Buffer[128];
-volatile uint8_t UART3Tx_index;
-volatile uint8_t UART3Rx_index;
 
-uint8_t UART4Rx_Buffer[128];
-uint8_t Rx4_Buffer[128];
-volatile uint8_t UART4Rx_index;
-
-uint8_t UART5Rx_Buffer[128];
-uint8_t Rx5_Buffer[128];
-volatile uint8_t UART5Rx_index;
-
-
-uint8_t UART6Rx_Buffer[128];
-uint8_t Rx6_Buffer[128];
-volatile uint8_t UART6Rx_index;
-
-uint8_t UART7Rx_Buffer[128];
-uint8_t Rx7_Buffer[128];
-volatile uint8_t UART7Rx_index;
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart4;
 UART_HandleTypeDef huart5;
 UART_HandleTypeDef huart7;
+UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
 UART_HandleTypeDef huart6;
 
@@ -105,6 +86,27 @@ void MX_UART7_Init(void)
   huart7.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
   huart7.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
   if (HAL_UART_Init(&huart7) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+}
+/* USART2 init function */
+
+void MX_USART2_UART_Init(void)
+{
+
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 115200;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart2.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
+  huart2.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  if (HAL_UART_Init(&huart2) != HAL_OK)
   {
     Error_Handler();
   }
@@ -178,7 +180,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
     /* UART4 interrupt Init */
-    HAL_NVIC_SetPriority(UART4_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(UART4_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(UART4_IRQn);
   /* USER CODE BEGIN UART4_MspInit 1 */
 
@@ -213,7 +215,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     HAL_GPIO_Init(WIFI_Uart_Rx_GPIO_Port, &GPIO_InitStruct);
 
     /* UART5 interrupt Init */
-    HAL_NVIC_SetPriority(UART5_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(UART5_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(UART5_IRQn);
   /* USER CODE BEGIN UART5_MspInit 1 */
 
@@ -243,6 +245,33 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
 
   /* USER CODE END UART7_MspInit 1 */
   }
+  else if(uartHandle->Instance==USART2)
+  {
+  /* USER CODE BEGIN USART2_MspInit 0 */
+
+  /* USER CODE END USART2_MspInit 0 */
+    /* USART2 clock enable */
+    __HAL_RCC_USART2_CLK_ENABLE();
+  
+    __HAL_RCC_GPIOD_CLK_ENABLE();
+    /**USART2 GPIO Configuration    
+    PD5     ------> USART2_TX
+    PD6     ------> USART2_RX 
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_5|GPIO_PIN_6;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
+    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+    /* USART2 interrupt Init */
+    HAL_NVIC_SetPriority(USART2_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(USART2_IRQn);
+  /* USER CODE BEGIN USART2_MspInit 1 */
+
+  /* USER CODE END USART2_MspInit 1 */
+  }
   else if(uartHandle->Instance==USART3)
   {
   /* USER CODE BEGIN USART3_MspInit 0 */
@@ -264,7 +293,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
     /* USART3 interrupt Init */
-    HAL_NVIC_SetPriority(USART3_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(USART3_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(USART3_IRQn);
   /* USER CODE BEGIN USART3_MspInit 1 */
 
@@ -291,7 +320,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
     /* USART6 interrupt Init */
-    HAL_NVIC_SetPriority(USART6_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(USART6_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(USART6_IRQn);
   /* USER CODE BEGIN USART6_MspInit 1 */
 
@@ -362,6 +391,26 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 
   /* USER CODE END UART7_MspDeInit 1 */
   }
+  else if(uartHandle->Instance==USART2)
+  {
+  /* USER CODE BEGIN USART2_MspDeInit 0 */
+
+  /* USER CODE END USART2_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __HAL_RCC_USART2_CLK_DISABLE();
+  
+    /**USART2 GPIO Configuration    
+    PD5     ------> USART2_TX
+    PD6     ------> USART2_RX 
+    */
+    HAL_GPIO_DeInit(GPIOD, GPIO_PIN_5|GPIO_PIN_6);
+
+    /* USART2 interrupt Deinit */
+    HAL_NVIC_DisableIRQ(USART2_IRQn);
+  /* USER CODE BEGIN USART2_MspDeInit 1 */
+
+  /* USER CODE END USART2_MspDeInit 1 */
+  }
   else if(uartHandle->Instance==USART3)
   {
   /* USER CODE BEGIN USART3_MspDeInit 0 */
@@ -405,81 +454,6 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 } 
 
 /* USER CODE BEGIN 1 */
-
-
-
-//implemantation of UART ISR
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef* huart){
-	if (huart->Instance == UART4){ //current UART?
-		UART3Rx_index++;
-		UART3Rx_index &= ~(1<<7); //keep index inside the limits
-		
-		// set the interrupt for UART3 Rx again
-		HAL_UART_Receive_IT(&huart4, &UART3Rx_Buffer[UART3Rx_index], 1);
-		
-//		if (UART3Rx_Buffer[UART3Rx_index-1] == '>')
-			//HAL_UART_Transmit_IT(&huart3, &UART3Rx_Buffer[UART3Rx_index]-1, 1);
-			
-	}
-	if (huart->Instance == USART3){ //current UART?
-		UART6Rx_index++;
-		UART6Rx_index &= ~(1<<7); //keep index inside the limits
-		
-		// set the interrupt for UART3 Rx again
-		HAL_UART_Receive_IT(&huart3, &UART6Rx_Buffer[UART6Rx_index], 1);
-		HAL_UART_Transmit_IT(&huart4, &UART6Rx_Buffer[UART6Rx_index]-1, 1);
-	}
-}
-
-int messageReceived(int *c){
-	static int out_index = 0;
-//	int return_value = 0;
-	while(UART3Tx_index != UART3Rx_index){
-		if(UART3Rx_Buffer[UART3Tx_index] == '<'){
-			*c = 3;
-			UART3Tx_index ++;
-//			Rx_Buffer[out_index - 1] = '\0';
-		}
-		else if (*c == 1)
-		{
-		if(UART3Rx_Buffer[UART3Tx_index] == '>') {	
-			*c = 2;
-	//		HAL_UART_Transmit_IT(&huart4, "pp", 2);
-			Rx_Buffer[out_index] = UART3Rx_Buffer[UART3Tx_index++];
-			UART3Tx_index &= ~(1<<7);
-			out_index=0;
-			return *c-2;
-
-		}
-		else
-		Rx_Buffer[out_index++] = UART3Rx_Buffer[UART3Tx_index++];
-	}
-		else if (*c == 3 && UART3Rx_Buffer[UART3Tx_index] == 'N')
-		{
-			*c=1;
-			HAL_UART_Transmit_IT(&huart4, "okoko", 5);
-			Rx_Buffer[out_index++] = '<';
-			Rx_Buffer[out_index++] = UART3Rx_Buffer[UART3Tx_index++];
-		}
-		else 
-		{
-			*c= 7;
-			UART3Tx_index++;
-		}
-		//UART3Tx_index++;
-		UART3Tx_index &= ~(1<<7);
-	}
-	return *c-2;
-}
-
-void init_UARTs(){
-	// set the interrupt for UART3 Rx
-	HAL_UART_Receive_IT(&huart3, &UART3Rx_Buffer[UART3Rx_index], 1);
-	HAL_UART_Receive_IT(&huart4, &UART4Rx_Buffer[UART4Rx_index], 1);
-	HAL_UART_Receive_IT(&huart5, &UART5Rx_Buffer[UART5Rx_index], 1);
-	HAL_UART_Receive_IT(&huart6, &UART6Rx_Buffer[UART6Rx_index], 1);
-	HAL_UART_Receive_IT(&huart7, &UART7Rx_Buffer[UART7Rx_index], 1);
-}
 
 /* USER CODE END 1 */
 

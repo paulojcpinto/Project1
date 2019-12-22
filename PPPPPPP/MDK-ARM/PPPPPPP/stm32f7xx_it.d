@@ -29,6 +29,17 @@ ppppppp\stm32f7xx_it.o: ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_i2c.h
 ppppppp\stm32f7xx_it.o: ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_i2c_ex.h
 ppppppp\stm32f7xx_it.o: ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pwr.h
 ppppppp\stm32f7xx_it.o: ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pwr_ex.h
+ppppppp\stm32f7xx_it.o: ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_tim.h
+ppppppp\stm32f7xx_it.o: ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_tim_ex.h
 ppppppp\stm32f7xx_it.o: ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart.h
 ppppppp\stm32f7xx_it.o: ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_uart_ex.h
 ppppppp\stm32f7xx_it.o: ../Core/Inc/stm32f7xx_it.h
+ppppppp\stm32f7xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+ppppppp\stm32f7xx_it.o: ../Core/Inc/FreeRTOSConfig.h
+ppppppp\stm32f7xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+ppppppp\stm32f7xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+ppppppp\stm32f7xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+ppppppp\stm32f7xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM7/r0p1/portmacro.h
+ppppppp\stm32f7xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+ppppppp\stm32f7xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+ppppppp\stm32f7xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
